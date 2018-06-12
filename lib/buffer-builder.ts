@@ -6,7 +6,7 @@ export class BufferBuilder {
   private buffer: MutableBuffer;
 
   constructor(private defaultSettings: boolean = true) {
-    this.buffer = new MutableBuffer();
+    this.buffer = new MutableBuffer(1000, 1000);
 
     if (this.defaultSettings) {
       this.resetCharacterSize();
@@ -147,18 +147,8 @@ export class BufferBuilder {
       this.buffer.write(Command.ESC_init);
     }
 
-    return this.buffer.flush();
+    return Array.prototype.slice.call(this.buffer.flush(), 0);
   }
-
-  /**
-   * Register Paper Cut Action
-   * @return BufferBuilder
-   */
-  public paperCut(): BufferBuilder {
-    this.buffer.write(Command.GS_v(1));
-    return this;
-  }
-
 
 }
 
